@@ -28,7 +28,8 @@
 
   ;; destination db
   com.xtdb/xtdb-core {:mvn/version "1.24.3"}
-  diehard/diehard    {:mvn/version "0.11.10"}
+  diehard/diehard    {:mvn/version "0.11.10"}}
 
-  ;; kafka related (if needed)
-  }}
+ :aliases
+ {:test {:extra-deps {lambdaisland/kaocha {:mvn/version "1.87.1366"}}
+         :main-opts  ["-m" "kaocha.runner"]}}}

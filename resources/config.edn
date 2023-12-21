@@ -2,12 +2,4 @@
  {:password      "verysecret"
   :user          "user"
   :root-password "root-pw"
-  :db            "sample_db"}
-
- :postgresql
- {:password "verysecret"
-  :user     "user"
-  :db       "sample_db"}
-
- :debezium
- {}}
+  :db            "sample_db"}}

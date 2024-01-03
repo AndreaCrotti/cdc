@@ -22,7 +22,7 @@
             config (-> system :config/configuration :mysql)
             ds     (m/get-ds config port)
             node   (-> system :xtdb/node)
-            data   (m/seed! ds)]
+            _data   (m/seed! ds)]
 
         ;; would be nice to avoid this sleep, but the retry alone is not enough
         (Thread/sleep 3000)

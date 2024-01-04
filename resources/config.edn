@@ -2,4 +2,5 @@
  {:password      "verysecret"
   :user          "user"
   :root-password "root-pw"
+  :root-user     "root"
   :db            "sample_db"}}

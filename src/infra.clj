@@ -5,19 +5,18 @@
    [integrant.core :as ig]))
 
 (defn mysql []
-  (let [{:keys [mysql]} (configuration)]
+  (let [{:keys [db user password root-password]} (-> (configuration) :mysql)]
     (-> (tc/create {:image-name    "mysql:8.2.0"
                     :log-to        {:log-strategy :string}
                     :wait-for      {:wait-strategy :port}
                     :exposed-ports [3306]
-                    :env-vars      {"MYSQL_USER"          (:user mysql)
-                                    "MYSQL_DATABASE"      (:db mysql)
-                                    "MYSQL_PASSWORD"      (:password mysql)
-                                    "MYSQL_ROOT_PASSWORD" (:root-password mysql)}})
+                    :env-vars      {"MYSQL_USER"          user
+                                    "MYSQL_DATABASE"      db
+                                    "MYSQL_PASSWORD"      password
+                                    "MYSQL_ROOT_PASSWORD" root-password}})
         (tc/bind-filesystem! {:host-path      "/tmp"
                               :container-path "/opt"
-                              :mode           :read-only})
-        #_(tc/start!))))
+                              :mode           :read-only}))))
 
 (defn start! [container]
   (let [started (tc/start! container)

@@ -18,7 +18,7 @@
   (x/add-record! node record))
 
 
-(defn config [port {:keys [root-password]}] ;; using the ``root-password`` to avoid having to add extra permission to the standard user
+(defn config [port {:keys [root-password root-user]}] ;; using the ``root-password`` to avoid having to add extra permission to the standard user
   (-> (Configuration/empty)
       (.edit)
       ;; TODO: can we just move the config to a map and generate this
@@ -36,8 +36,8 @@
       (.with "database.server.name" "localhost")
       (.with "database.hostname" "localhost")
       (.with "database.port" port)
-      (.with "database.password" root-password #_password)
-      (.with "database.user" "root" #_user)
+      (.with "database.password" root-password)
+      (.with "database.user" root-user)
       (.with "schema.history.internal" "io.debezium.storage.file.history.FileSchemaHistory")
       ;; change this path as well??
       (.with "schema.history.internal.file.filename" "/tmp/schemahistory.dat")

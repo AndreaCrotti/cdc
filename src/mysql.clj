@@ -4,13 +4,13 @@
    [next.jdbc.sql :as js]))
 
 
-(defn config->dbspec [config port]
+(defn config->dbspec [{:keys [root-password root-user db] :as _config} port]
   {:dbtype   "mysql"
    :host     "localhost"
-   :user     "root"
+   :user     root-user
    :port     port
-   :password (:root-password config)
-   :dbname   (:db config)})
+   :password root-password
+   :dbname   db})
 
 (defn create-table! [ds]
   (j/execute! ds

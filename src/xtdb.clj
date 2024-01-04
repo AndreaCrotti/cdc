@@ -18,6 +18,7 @@
                     :payload)]
     (when (is-row? payload)
       (let [doc (payload->doc payload)]
+        ;; get a full example of a record to see all the other fields available
         (println "inserting document " doc)
         (try
           (println

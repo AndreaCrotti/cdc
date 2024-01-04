@@ -46,7 +46,14 @@
         (m/update-data! ds 2)
         ;; try to avoid sleeps if possible
         (Thread/sleep 3000)
-        (is (= 2 (count (xt/entity-history (xt/db node) 0 :asc)))))
+        (is (= 2 (count (xt/entity-history (xt/db node) 0 :asc))))
+
+        ;; now what happens if we delete everything??
+
+        (m/delete-record! ds 0)
+        (Thread/sleep 3000)
+        ;; now check that the value is deleted unless you go back in history
+        (is (empty? (xt/entity-history (xt/db node) 0 :asc))))
       (finally
         (s/stop-all)))))
 

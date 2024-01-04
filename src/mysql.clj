@@ -15,11 +15,6 @@
    :password root-password
    :dbname   db})
 
-(defn update-versions [version]
-  (-> (hh/update :big_table)
-      (hh/sset {:version version, :updated_at (t/now)})
-      (h/format {:pretty true})))
-
 (defn create-table! [ds]
   (j/execute! ds
               ["CREATE TABLE IF NOT EXISTS big_table (id INTEGER PRIMARY KEY, version INTEGER, text TEXT, created_at TIMESTAMP, updated_at TIMESTAMP)"]))
@@ -37,7 +32,16 @@
     data))
 
 (defn update-data! [ds version]
-  (j/execute! ds (update-versions version)))
+  (j/execute! ds
+              (-> (hh/update :big_table)
+                  (hh/sset {:version version, :updated_at (t/now)})
+                  (h/format {:pretty true}))))
+
+(defn delete-record! [ds id]
+  (j/execute! ds
+              (-> (hh/delete-from :big_table)
+                  (hh/where [:= :id id])
+                  (h/format {:pretty true}))))
 
 (defn get-rows [ds]
   (js/query ds ["SELECT * FROM big_table"]))

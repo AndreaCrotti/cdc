@@ -16,7 +16,7 @@
   [{:keys [node]} ^EmbeddedEngineChangeEvent record]
   ;; Process the `SourceRecord` received from Debezium here.
   ;; For example, turn it into EDN, map to your domain, etc.
-  (x/add-record! node record))
+  (x/handle-op! node record))
 
 
 (defn config [port {:keys [root-password root-user]}] ;; using the ``root-password`` to avoid having to add extra permission to the standard user

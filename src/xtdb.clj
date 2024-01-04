@@ -12,10 +12,19 @@
 (defn is-row? [payload]
   (some? (:after payload)))
 
-(defn add-record! [node record]
+(defn handle-op! [node record]
   (let [payload (-> (.value record)
                     (json/parse-string keyword)
                     :payload)]
+    (when (= "d" (:op payload))
+      ;; delete
+     (xt/await-tx
+       node
+       (xt/submit-tx node [::xt/delete (-> payload
+                                           :before
+                                           :id)]))
+      (tap> payload))
+
     (when (is-row? payload)
       (let [doc (payload->doc payload)]
         ;; get a full example of a record to see all the other fields available

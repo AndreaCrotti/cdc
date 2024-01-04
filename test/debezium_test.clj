@@ -10,8 +10,9 @@
    [xtdb.api :as xt]))
 
 (defn clear-files! []
-  (io/delete-file "/tmp/offsets.dat" true)
-  (io/delete-file "/tmp/schemahistory.dat" true))
+  (io/delete-file (-> configuration :kafka :offsets) true)
+  (io/delete-file (-> configuration :kafka :schema-history) true))
+
 
 (deftest msyql->xtdb-test
   (testing "Can sync data from one db to the other"

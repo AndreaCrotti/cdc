@@ -29,7 +29,7 @@
 
         ;; do a first seeding of the data
         (m/create-table! ds)
-        (m/insert-data! ds 1)
+        (m/insert-data! ds 10 1)
         ;; would be nice to avoid this sleep, but the retry alone is not enough
         (Thread/sleep 3000)
         ;; now check that the data is in XTDB
@@ -48,13 +48,13 @@
         (Thread/sleep 3000)
         (is (= 2 (count (xt/entity-history (xt/db node) 0 :asc))))
 
+        (is (some? (xt/entity (xt/db node) 0)))
         ;; now what happens if we delete everything??
-
         (m/delete-record! ds 0)
         (Thread/sleep 3000)
         ;; now check that the value is deleted unless you go back in history
-        (is (empty? (xt/entity-history (xt/db node) 0 :asc))))
+        (is (nil? (xt/entity (xt/db node) 0)))
+        ;; the history is still there however, but not the content
+        (is (= 2 (xt/entity-history (xt/db node) 0 :asc))))
       (finally
         (s/stop-all)))))
-
-;; write the same value multiple times and see the different content?

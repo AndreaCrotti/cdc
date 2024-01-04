@@ -9,7 +9,7 @@
       (merge after)
       (dissoc :id)))
 
-(defn is-row? [payload]
+(defn create-or-update? [payload]
   (some? (:after payload)))
 
 (defn handle-op! [node record]
@@ -17,15 +17,12 @@
                     (json/parse-string keyword)
                     :payload)]
     (when (= "d" (:op payload))
-      ;; delete
-     (xt/await-tx
-       node
-       (xt/submit-tx node [::xt/delete (-> payload
-                                           :before
-                                           :id)]))
-      (tap> payload))
+      (let [id (-> payload :before :id)]
+        (xt/await-tx
+         node
+         (xt/submit-tx node [[::xt/delete id]]))))
 
-    (when (is-row? payload)
+    (when (create-or-update? payload)
       (let [doc (payload->doc payload)]
         ;; get a full example of a record to see all the other fields available
         (println "inserting document " doc)
@@ -60,5 +57,7 @@
   #_(xt/sync node)
 
   (xt/entity (xt/db node) :other-record)
-
+  ;; now delete it
+  (xt/submit-tx node [[::xt/delete :other-record]])
+  (xt/entity-history (xt/db node) :other-record :asc)
   )

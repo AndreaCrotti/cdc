@@ -19,8 +19,8 @@
   (j/execute! ds
               ["CREATE TABLE IF NOT EXISTS big_table (id INTEGER PRIMARY KEY, version INTEGER, text TEXT, created_at TIMESTAMP, updated_at TIMESTAMP)"]))
 
-(defn insert-data! [ds version]
-  (let [data (for [n (range 1000)]
+(defn insert-data! [ds n-rows version]
+  (let [data (for [n (range n-rows)]
                {:id n
                 :text (str "record: " n)
                 :created_at (t/now)

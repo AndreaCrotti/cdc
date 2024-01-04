@@ -28,7 +28,7 @@
       (.with "connector.class" "io.debezium.connector.mysql.MySqlConnector")
       (.with "offset.storage" "org.apache.kafka.connect.storage.FileOffsetBackingStore")
       ;; make the path configurable?
-      (.with "offset.storage.file.filename" "/tmp/offsets.dat")
+      (.with "offset.storage.file.filename" (-> configuration :kafka :offsets))
       (.with "offset.flush.interval.ms" "60000")
       (.with "topic.prefix" "my-app-connector")
 
@@ -41,7 +41,7 @@
       (.with "database.user" root-user)
       (.with "schema.history.internal" "io.debezium.storage.file.history.FileSchemaHistory")
       ;; change this path as well??
-      (.with "schema.history.internal.file.filename" "/tmp/schemahistory.dat")
+      (.with "schema.history.internal.file.filename" (-> configuration :kafka :schema-history))
       (.build)
       (.asProperties)))
 

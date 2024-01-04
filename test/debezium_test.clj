@@ -4,6 +4,7 @@
    [clojure.test :refer [deftest is testing]]
    [diehard.core :as die]
    [integrant.repl.state :refer [system]]
+   [config :refer [configuration]]
    [mysql :as m]
    [system :as s]
    [xtdb.api :as xt]))
@@ -19,7 +20,7 @@
     (s/start-all)
     (try
       (let [port   (-> system :infra/mysql :port)
-            config (-> system :config/configuration :mysql)
+            config (-> configuration :mysql)
             ds     (m/get-ds config port)
             node   (-> system :xtdb/node)
             _data   (m/seed! ds)]

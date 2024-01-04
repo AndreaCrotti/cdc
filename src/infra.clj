@@ -5,7 +5,7 @@
    [integrant.core :as ig]))
 
 (defn mysql []
-  (let [{:keys [db user password root-password]} (-> (configuration) :mysql)]
+  (let [{:keys [db user password root-password]} (-> configuration :mysql)]
     (-> (tc/create {:image-name    "mysql:8.2.0"
                     :log-to        {:log-strategy :string}
                     :wait-for      {:wait-strategy :port}

@@ -1,5 +1,6 @@
 (ns debezium
   (:require
+   [config :refer [configuration]]
    [integrant.core :as ig]
    [xtdb :as x])
   (:import
@@ -46,7 +47,7 @@
 
 (defn start-debezium
   "Starts the Debezium engine with a MySQL connector."
-  [{:keys [mysql configuration] :as ctx}]
+  [{:keys [mysql] :as ctx}]
   (let [port (:port mysql)
         c (config port (:mysql configuration))
         ^Consumer consumer

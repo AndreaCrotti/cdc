@@ -40,7 +40,7 @@
 
 (comment
   (require '[config :refer [configuration]])
-  (def m (:mysql (configuration)))
+  (def m (:mysql configuration))
   (def db-spec (config->dbspec m 32872))
   (def ds (j/get-datasource db-spec))
   (j/execute! ds ["SELECT 1"])

@@ -1,19 +1,12 @@
-(ns config
-  (:require
-   [integrant.core :as ig]
-   [clojure.java.io :as io]
-   [aero.core :as a]))
+(ns config)
 
-
-(defn configuration []
-  ;; should be able to use `io/resource` in theory if everything is set up correctly
-  (a/read-config (io/file "resources/config.edn")))
-
-(defmethod ig/init-key ::configuration
-  [_ _]
-  (configuration))
-
-(defmethod ig/halt-key! ::configuration
-  [_ _]
-  ;; nothing needed
-  )
+(def configuration
+  {:mysql
+   {:password      "verysecret"
+    :user          "user"
+    :root-password "root-pw"
+    :root-user     "root"
+    :db            "sample_db"}
+   :kafka
+   {:schema-history "/tmp/schemahistory.dat"
+    :offsets        "/tmp/offsets.dat"}})

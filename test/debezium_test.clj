@@ -2,13 +2,12 @@
   (:require
    [clojure.java.io :as io]
    [clojure.test :refer [deftest is testing]]
+   [config :refer [configuration]]
    [diehard.core :as die]
    [integrant.repl.state :refer [system]]
-   [config :refer [configuration]]
    [mysql :as m]
    [system :as s]
-   [xtdb.api :as xt]
-   [tick.core :as t]))
+   [xtdb.api :as xt]))
 
 (defn clear-files! []
   (io/delete-file (-> configuration :kafka :offsets) true)
